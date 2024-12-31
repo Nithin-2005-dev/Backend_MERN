@@ -1,0 +1,10 @@
+const path = require("path");
+console.log("Directory name:", path.dirname(__filename));
+console.log("File name:", path.basename(__filename));
+console.log("file extension:", path.extname(__filename));
+const joinPath = path.join("/user", "documents", "node", "projects");
+console.log("joined path:", joinPath);
+const resolvePath = path.resolve("user", "document", "node", "projects");
+console.log("resolve path:", resolvePath);
+const normalizedPath = path.normalize(__dirname);
+console.log("normalized path:", normalizedPath);

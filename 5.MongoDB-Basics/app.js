@@ -1,9 +1,8 @@
-//0nQf9w3M6osYfpQa
-//mongodb+srv://nk0402246:0nQf9w3M6osYfpQa@cluster0.pr9fz.mongodb.net/
+
 const mongoose = require("mongoose");
 mongoose
   .connect(
-    `mongodb+srv://nk0402246:0nQf9w3M6osYfpQa@cluster0.pr9fz.mongodb.net/`
+    ``
   )
   .then(() => console.log("database conneted cucessfully"))
   .catch((err) => console.log(err.message));

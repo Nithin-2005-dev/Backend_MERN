@@ -4,6 +4,7 @@ import { connectToDB } from "./database/db.js";
 import { authRouter } from "./routes/auth.routes.js";
 import { homeRouter } from "./routes/home.routes.js";
 import { adminRouter } from "./routes/admin.routes.js";
+import { imageRouter } from "./routes/image.routes.js";
 dotenv.config();
 //database
 connectToDB();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/home", homeRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/image", imageRouter);
 app.listen(process.env.PORT, () => {
   console.log("server is listening...");
 });

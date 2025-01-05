@@ -6,11 +6,11 @@ export const registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
     if (!username || !password || !email) {
-        return res.status(400).json({
-          success: false,
-          message: "Username and password are required.",
-        });
-      }
+      return res.status(400).json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
     const userCheck = await User.findOne({ $or: [{ username }, { email }] });
     if (userCheck) {
       return res.status(400).json({
@@ -50,21 +50,21 @@ export const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
-        return res.status(400).json({
-          success: false,
-          message: "Username and password are required.",
-        });
-      }
+      return res.status(400).json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
     const user = await User.findOne({ username });
     if (!user) {
-     return res.status(400).json({
+      return res.status(400).json({
         sucess: false,
         message: "Invalid credientials.",
       });
     }
-    const isPasswordCorrect =await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-     return res.status(400).json({
+      return res.status(400).json({
         sucess: false,
         message: "incorrect password.",
       });
@@ -84,6 +84,41 @@ export const loginUser = async (req, res) => {
       accessToken,
     });
   } catch (err) {
+    res.status(500).json({
+      sucess: false,
+      message: "something went wrong! please try again.",
+    });
+  }
+};
+export const changePassword = async (req, res) => {
+  try {
+    const userId = req.userInfo.userId;
+    const { oldPassword, newPassword } = req.body;
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "user not found",
+      });
+    }
+    const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+    if (isPasswordCorrect) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      user.password = hashedPassword;
+      await user.save();
+      res.status(200).json({
+        success: true,
+        message: "password changed successfully",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "old password is not correct",
+      });
+    }
+  } catch (err) {
+    console.log(err);
     res.status(500).json({
       sucess: false,
       message: "something went wrong! please try again.",

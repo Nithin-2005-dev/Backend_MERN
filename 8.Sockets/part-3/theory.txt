@@ -1,0 +1,11 @@
+web socket:-it is a communication protocol like http/ftp/smtp
+http-> <-server
+web socket<->server
+client connects to server with sockets
+io refers to enter circuit
+every socket has unit id
+emit->triggers the event
+on->catches the event
+broadcast->every socket catches the event except triggered one
+to->to trigger event to specific socket
+join->to trigger event to specific group of sockets
